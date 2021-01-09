@@ -27,9 +27,13 @@ class AbstractCamera {
 #endif
 
 
-
+ static uint8_t camera_id_counter_;
 
  protected:
     std::vector<float> parameters_;
+
+    uint8_t camera_id_;
+
+    uint8_t camera_type_;
 };
 }  // namespace JUNIOR_VIO
