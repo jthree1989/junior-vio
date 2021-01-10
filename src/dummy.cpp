@@ -1,5 +1,2 @@
 #include "camera/AbstractCamera.h"
-void dummy()
-{
-    
-}
+void dummy() {}
