@@ -11,6 +11,11 @@
 namespace junior_vio {
 class AbstractCamera {
  public:
+  enum kCameraModel {
+    kPinHole = 0,
+    kFisheye
+  };
+
   AbstractCamera() {}
 
   AbstractCamera(const std::vector<float> &parameters)
@@ -26,13 +31,11 @@ class AbstractCamera {
   virtual cv::Point3f unproject(const cv::Point2f &point_2d) = 0;
 #endif
 
-  static uint8_t camera_id_counter_;
-
  protected:
   std::vector<float> parameters_;
 
-  uint8_t camera_id_;
+  int8_t camera_id_;
 
-  uint8_t camera_type_;
+  kCameraModel camera_type_;
 };
 }  // namespace junior_vio
