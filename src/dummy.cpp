@@ -1,2 +1,2 @@
-#include "camera/AbstractCamera.h"
+#include "camera/CameraBase.h"
 void dummy() {}

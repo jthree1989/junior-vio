@@ -17,7 +17,7 @@ option(OPTION_BUILD_TESTS     		"Build tests."                OFF)
 option(OPTION_BUILD_DOCS      		"Build documentation."        OFF)
 option(OPTION_BUILD_TOOLS     		"Build tools."                OFF)
 
-option(OPTION_BUILD_WITH_OPENCV 	"Build with opencv"			  ON)
+option(WITH_OPENCV 					"Build with opencv"			  ON)
 
 set(CONAN_PROFILE default)
 
