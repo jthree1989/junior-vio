@@ -8,16 +8,15 @@ class PinholeCamera : public CameraBase {
  public:
   using Ptr = std::shared_ptr<PinholeCamera>;
 
-  explicit PinholeCamera(int8_t camera_id) {
+  explicit PinholeCamera(int8_t camera_id) 
+  :CameraBase(camera_id){
     parameters_.resize(4);
-    camera_id_ = camera_id;
     camera_type_ = kCameraModel::kPinHole;
   }
 
-  PinholeCamera(const std::vector<float>& parameters, int8_t camera_id)
-      : CameraBase(parameters) {
+  PinholeCamera(int8_t camera_id, const std::vector<float>& parameters)
+      : CameraBase(camera_id, parameters) {
     assert(parameters_.size() == 4);
-    camera_id_ = camera_id;
     camera_type_ = kCameraModel::kPinHole;
   }
 

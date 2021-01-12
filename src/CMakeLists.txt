@@ -2,7 +2,7 @@ file(GLOB_RECURSE SRC *.cpp *.cc)
 
 add_library(junior-vio ${SRC})
 
-list(APPEND deps )
+list(APPEND deps CONAN_PKG::eigen)
 
 if(OPTION_BUILD_WITH_OPENCV)
     list(APPEND deps CONAN_PKG::opencv)

@@ -18,13 +18,13 @@ class CameraBase {
 
   enum kCameraModel {
     kPinHole = 0,
-    kFisheye
+    kKB8
   };
 
-  CameraBase() {}
+  CameraBase(uint8_t camera_id) : camera_id_(camera_id){}
 
-  CameraBase(const std::vector<float> &parameters)
-      : parameters_(parameters) {}
+  CameraBase(uint8_t camera_id, const std::vector<float> &parameters)
+      : camera_id_(camera_id), parameters_(parameters) {}
 
   ~CameraBase() {}
 
@@ -36,9 +36,11 @@ class CameraBase {
 
   virtual Eigen::Matrix<float, 3, 2> unprojectJacobian(const Eigen::Vector2f &point_2d) = 0;
 
-  float getParameter(const size_t index) const { return parameters_[index]; }
+  float getParameterByIndex(const size_t index) const { return parameters_[index]; }
 
-  void setParameter(const float value, const size_t index) { parameters_[index] = value; }
+  const std::vector<float> parameters() const { return parameters_; }
+
+  void setParameterByIndex(const float value, const size_t index) { parameters_[index] = value; }
 
   size_t size() const { return parameters_.size(); }
 
@@ -57,10 +59,10 @@ class CameraBase {
 #endif
 
  protected:
-  std::vector<float> parameters_;
-
-  int8_t camera_id_;
+  uint8_t camera_id_;
 
   kCameraModel camera_type_;
+  
+  std::vector<float> parameters_;
 };
 }  // namespace junior_vio

@@ -60,7 +60,7 @@ cv::Point2f PinholeCamera::project(const cv::Point3f &point_3d) {
 }
 
 cv::Mat PinholeCamera::projectJacobian(const cv::Point3f &point_3d){
-    // parameters_: [fx, fy, cx, cy]
+  // parameters_: [fx, fy, cx, cy]
   float fx = parameters_[0], fy = parameters_[1];
 
   float X = point_3d.x, Y = point_3d.y, Z = point_3d.z;
