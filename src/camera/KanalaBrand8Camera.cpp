@@ -52,3 +52,39 @@ Eigen::Matrix<float, 2, 3> KanalaBrandt8Camera::projectJacobian(const Eigen::Vec
 
   return project_jac;
 }
+
+Eigen::Vector3f KanalaBrandt8Camera::unproject(const Eigen::Vector2f &point_2d) {
+  // 1. Set meaningful name for parameters_: [fx, fy, cx, cy, k1 ,k2, k3, k4]
+  float fx = parameters_[0], fy = parameters_[1],
+        cx = parameters_[2], cy = parameters_[3];
+  float k1 = parameters_[4], k2 = parameters_[5], 
+        k3 = parameters_[6], k4 = parameters_[7];
+  float u = point_2d[0], v = point_2d[1];
+  float dist_theta = sqrtf(
+        (u - cx) / fx * (u - cx) / fx +
+        (v - cy) / fy * (v - cy) / cy
+  );
+  dist_theta = fminf(fmaxf(-M_PI / 2.f, dist_theta), M_PI / 2.f);
+  // 2. Solve the non-linear formula iteratively
+  float theta = dist_theta; // Initial guess
+  float theta2, theta4, theta6, theta8;
+  for(size_t j = 0; j < 20; j++){
+      theta2 = theta * theta, theta4 = theta2 * theta2, 
+      theta6 = theta2 * theta4, theta8 = theta4 * theta4;
+
+      float f_theta = theta * (1.0f + k1 * theta2 + k2 * theta4 + k3 * theta6 + k4 * theta8);
+      float df_dtheta = 1.0f + 3 * k1 * theta2 + 5 * k2 * theta4 + 7 * k3 * theta6 + 9 * k4 * theta8;
+
+      float delta_theta = f_theta / df_dtheta;
+      theta = theta - delta_theta; 
+      if(fabsf(delta_theta) < precision_) break;
+  }
+  // 
+  float r = tanf(theta);
+  Eigen::Vector3f normalized_3d_point; 
+  normalized_3d_point(0, 0) = u * r / dist_theta;
+  normalized_3d_point(1, 0) = v * r / dist_theta; 
+  normalized_3d_point(2, 0) = 1.0f;
+
+  return normalized_3d_point;
+}
